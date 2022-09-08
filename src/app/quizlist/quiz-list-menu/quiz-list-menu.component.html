@@ -4,13 +4,16 @@
     <h2>Filter By Quiz Title :</h2>
     <input type="text" [(ngModel)]="listFilter" />
   </div>
-  <mat-form-field appearance="fill">
-    <mat-label>Topic</mat-label>
-    <mat-select  [(value)]="topic">
-      <mat-option *ngFor="let select of topics" value="{{select.name}}">{{ select.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button mat-button (click)="onSearch()" ><mat-icon>find_replace</mat-icon></button>
+  <div class="search">
+    <mat-form-field appearance="fill">
+      <mat-label>Topic</mat-label>
+      <mat-select  [(value)]="topic">
+        <mat-option *ngFor="let select of topics" value="{{select.name}}">{{ select.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button (click)="onSearch()" ><mat-icon>find_replace</mat-icon></button>
+  </div>
+
   <table mat-table [dataSource]="filteredQuizes" class="mat-elevation-z5">
     <ng-container matColumnDef="title">
 
@@ -25,7 +28,7 @@
     <ng-container matColumnDef="content">
 
       <td mat-cell *matCellDef="let element">
-        <button color="accent" mat-button (click)="onClick(element.content)">
+        <button color="accent" mat-icon-button (click)="onClick(element.content)">
           <mat-icon>info</mat-icon>
         </button>
       </td>
@@ -40,7 +43,7 @@
     <ng-container matColumnDef="ex">
 
       <td mat-cell *matCellDef="let element">
-        <a mat-button *ngIf="userIsAuthenticated && !mapParam" mat-button color="primary"  [routerLink]="['/Ex', element.id]"><mat-icon>assignment</mat-icon></a>
+        <a mat-button *ngIf="userIsAuthenticated && !mapParam" mat-icon-button color="primary"  [routerLink]="['/Ex', element.id]"><mat-icon>assignment</mat-icon></a>
       </td>
     </ng-container>
 

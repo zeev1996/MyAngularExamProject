@@ -17,7 +17,7 @@ import { TopicService } from 'src/app/Repository/topicService';
 export class QuizListMenuComponent implements OnInit, OnDestroy {
   quizzes: Quiz[] = [];
   userId: string;
-  topic = 'none';
+  topic = 'any';
   topics: any[] = [];
   topicQuizzes:Quiz[]=[];
   authStatusSub: Subscription;
@@ -106,7 +106,7 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
 
   onSearch() {
     console.log(this.topic)
-    if(this.topic==="none")
+    if(this.topic==="any")
     {
       this.quizService.getQuizzes(this.PostsPerPage, this.currentPage);
     }

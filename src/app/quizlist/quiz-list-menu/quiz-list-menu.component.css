@@ -29,3 +29,8 @@ input{
 margin: 15px 15px;
 font-size: 15px;
 }
+.search
+{
+  display: flex;
+  flex-direction: row;
+}
