@@ -1,0 +1,84 @@
+<mat-spinner *ngIf="isloading"></mat-spinner>
+<mat-card *ngIf="!isloading">
+  <mat-stepper class="step" orientation="horizontal" [linear]="true" #stepper>
+    <mat-step (interacted)="(false)" [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Fill out your Question</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Question Content</mat-label>
+          <textarea matInput placeholder="Question" name="content" formControlName="content" required matInput rows="4"
+            required="true"></textarea>
+          <button *ngIf="firstFormGroup.get('content').value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="stepper.reset()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Select an question type</mat-label>
+          <mat-select (valueChange)="onSelect()" [(value)]="selected">
+            <mat-option *ngFor="let select of questionTypes" value="{{ select }}">{{ select }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out your answers</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Answer input (maximum of 4 answers and same answers are not
+            allowed)</mat-label>
+          <input matInput name="answer" formControlName="answer" placeholder="answer" required />
+        </mat-form-field>
+        <div class="buttons">
+          <button mat-raised-button color="warn" (click)="onReset()">
+            reset
+          </button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button color="accent" (click)="onAdd()">add</button>
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button color="warn" (click)="stepper.reset()" (click)="onReset()">
+          Reset
+        </button>
+        <button mat-button color="primary" (click)="onSubmit()">submit</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</mat-card>
+<mat-card class="answers-css">
+  <h1>{{ firstFormGroup.get("content").value }}</h1>
+  <div *ngIf="selected === 'SingleQuestionAnswer'">
+    <h3>Select the right answer:</h3>
+    <mat-radio-group class="section" aria-labelledby="example-radio-group-label" class="example-radio-group"
+      [(ngModel)]="rightAnswer">
+      <mat-radio-button class="example-radio-button" *ngFor="let answer of answerstring" [value]="answer">
+        {{ answer }}
+      </mat-radio-button>
+    </mat-radio-group>
+    <div *ngIf="rightAnswer">
+      <h4>The Right Answer Is : {{ rightAnswer }}</h4>
+    </div>
+  </div>
+
+  <div *ngIf="selected === 'MultiQuestionAnswer'">
+    <h3>Select your answers:</h3>
+    <section class="section" [formGroup]="Checkboxform" class="example-section" *ngFor="let answer of answerstring">
+      <mat-checkbox [value]="answer" formArrayName="selectedAnswers" (change)="onCheck($event)">{{ answer }}
+      </mat-checkbox>
+    </section>
+    <div *ngIf="selectedAnswers.length">
+      <h4>{{ selectedAnswers.value }}</h4>
+    </div>
+  </div>
+</mat-card>
+<a mat-raised-button color="primary" [routerLink]="['/edit', quizid]">Back to quizz</a>

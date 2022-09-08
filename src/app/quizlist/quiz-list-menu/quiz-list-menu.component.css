@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+background-color: rgb(208, 208, 243);
+
+}
+
+
+td{
+  font-size: 15px;
+}
+
+mat-spinner
+{
+  margin-top:15rem;
+  margin-left:45%;
+}
+mat-card
+{
+  background-color: rgb(226, 227, 245);
+}
+.filter
+{
+
+  display: flex;
+  justify-content:center;
+  align-items: baseline;
+}
+input{
+margin: 15px 15px;
+font-size: 15px;
+}

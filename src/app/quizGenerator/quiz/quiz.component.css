@@ -1,0 +1,59 @@
+
+mat-form-field
+{
+  font-size: larger;
+  width: 100%;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items:flex-start
+}
+.spinner
+{
+  justify-content: center;
+  margin-left: 50%;
+}
+.example-radio-button {
+  margin: 5px;
+
+}
+ .content
+{
+  text-align: center;
+
+}
+
+.content h1{
+  font-size: 30px;
+  margin: 2rem;
+}
+.content p{
+  margin: 2rem;
+  font-size: 25px;
+}
+.content h5{
+  font-size: 20px;
+  margin: 2rem;
+}
+
+
+mat-grid-tile button {
+margin:5rem;
+
+}
+mat-grid-tile
+{
+  display: flex;
+  background-color: rgb(235, 255, 255);
+  justify-content: flex-start;
+
+}
+mat-spinner
+{
+  margin-top:15rem;
+  margin-left:45%;
+}
+

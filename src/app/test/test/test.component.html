@@ -1,0 +1,45 @@
+<mat-card>
+  <div class="content">
+
+  
+      <mat-card-header>
+       <h1>{{title}}</h1>
+      </mat-card-header>
+     <mat-card-subtitle>
+       <h5>{{topic}}</h5>
+     </mat-card-subtitle>
+     <mat-card-footer>
+       <p>{{content}}</p>
+     </mat-card-footer>
+
+  </div>
+
+</mat-card>
+<mat-tab-group color="accent" backgroundColor="primary" animationDuration="0ms">
+
+  <mat-tab *ngFor="let question of questions" label={{questions.indexOf(question)+1}}>
+    <h2 class="c">{{question.content}}</h2>
+    <div class="grid" *ngIf="question.questionType=='SingleQuestionAnswer'">
+
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" [value]="answer" *ngFor="let answer of question.answers">
+          {{answer}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="grid" *ngIf="question.questionType==='MultiQuestionAnswer'">
+
+      <section class="example-section" *ngFor="let answer of question.answers ">
+        <mat-checkbox class="sec" [value]="answer">{{answer}}
+        </mat-checkbox>
+      </section>
+      <div>
+      </div>
+    </div>
+  </mat-tab>
+
+
+
+
+</mat-tab-group>

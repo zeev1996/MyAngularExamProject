@@ -1,0 +1,49 @@
+mat-form-field
+{
+  width: 100%;
+}
+textarea{
+  width: 100%;
+  font-size: 20px;
+}
+input{
+  font-size: 20px;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: center;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+.buttons
+{
+
+  justify-content: space-between;
+}
+mat-card
+{
+  width: 100%;
+
+}
+
+.step
+{
+
+  width: 85%;
+  margin-left: 6%;
+}
+.answers-css
+{
+justify-content: center;
+text-align: center;
+}
+mat-spinner
+{
+  margin-top:15rem;
+  margin-left:45%;
+}

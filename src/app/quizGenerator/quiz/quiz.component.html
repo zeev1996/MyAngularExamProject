@@ -1,0 +1,97 @@
+<mat-spinner class="spinner" *ngIf="isloading"></mat-spinner>
+<mat-card *ngIf="!isloading">
+  <mat-tab-group class="quiz-tab" mat-align-tabs="center" color="accent" backgroundColor="primary">
+
+    <mat-tab label="Fill Out Quizz title" aria-required="true">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" [(ngModel)]="title">
+        <button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Add Quizz Topic">
+      <mat-form-field appearance="fill">
+        <mat-label>Topic</mat-label>
+        <mat-select [(value)]="topic">
+          <mat-option *ngFor="let select of topics" [value]="select.name">{{ select.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Fill Out Quizz Instructions">
+      <mat-form-field appearance="fill">
+        <mat-label>Instructions</mat-label>
+        <textarea matInput type="text" [(ngModel)]="content">
+
+          </textarea>
+        <button *ngIf="content" matSuffix mat-icon-button aria-label="Clear" (click)="content=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-tab>
+
+  </mat-tab-group>
+
+</mat-card>
+
+<mat-card>
+  <div *ngIf="!isloading" class="content">
+
+    <h1>{{title}}</h1>
+
+  <mat-card-subtitle>
+    <h5>{{topic}}</h5>
+  </mat-card-subtitle>
+  <mat-card-footer>
+    <p>{{content}}</p>
+  </mat-card-footer>
+
+  </div>
+  <mat-card-actions align="start">
+    <div *ngIf="!isloading" class="buttons">
+      <a mat-raised-button color="accent" [routerLink]="['/edit',quizid,'createQuestion']">Create a
+        Question</a>
+      <button color="primary" mat-raised-button (click)="onSubmit()">Save</button>
+      <a mat-raised-button [routerLink]="['/myQuizzes']">back</a>
+    </div>
+
+  </mat-card-actions>
+
+</mat-card>
+
+
+<div *ngIf="!isloading">
+
+
+    <mat-card class="question" *ngFor="let question of questions">
+
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="onDeletedQuestion(question._id)">Delete question</button>
+      </mat-card-actions>
+
+        <div class="grid" *ngIf="question.questionType=='SingleQuestionAnswer'">
+          <h1>{{question.content}}</h1>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" [value]="answer" *ngFor="let answer of question.answers">
+              {{answer}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="grid" *ngIf="question.questionType==='MultiQuestionAnswer'">
+          <h1>{{question.content}}</h1>
+          <section class="example-section" *ngFor="let answer of question.answers ">
+            <mat-checkbox [value]="answer">{{answer}}
+            </mat-checkbox>
+          </section>
+          <div>
+          </div>
+        </div>
+
+
+
+    </mat-card>
+
+
+</div>

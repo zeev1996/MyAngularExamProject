@@ -1,0 +1,13 @@
+<mat-card >
+  <mat-card-content>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onAdd(Form)" #Form="ngForm" *ngIf="!isLoading">
+    <mat-card-title>add topic</mat-card-title>
+    <mat-form-field>
+      <input type="text" name="topic" ngModel matInput placeholder="Topic" #passwordInput="ngModel" required>
+    </mat-form-field>
+    <button mat-raised-button color="accent" *ngIf="!isLoading" type="submit">Add</button>
+  </form>
+</mat-card-content>
+</mat-card>
+
