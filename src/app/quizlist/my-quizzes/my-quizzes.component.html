@@ -7,12 +7,7 @@
     <h2>Filter By Quiz Title :</h2>
     <input type="text" [(ngModel)]="listFilter" />
   </div>
-  <mat-form-field appearance="fill">
-    <mat-label>Topic</mat-label>
-    <mat-select (valueChange)="onChange()"  [(value)]="topic">
-      <mat-option *ngFor="let select of topics" [value]="select.name">{{ select.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+
   <table mat-table [dataSource]="filteredQuizes" class="mat-elevation-z8">
     <ng-container matColumnDef="title">
 

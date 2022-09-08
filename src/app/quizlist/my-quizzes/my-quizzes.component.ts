@@ -17,8 +17,6 @@ import { Quiz } from 'src/models/QuizModel';
 export class MyQuizzesComponent implements OnInit, OnDestroy {
   quizzes: Quiz[] = [];
   userId: string;
-  topic: string = 'none';
-  topics: any[] = [];
   isChecked = true;
   authStatusSub: Subscription;
   private _ListFilter: string = '';
@@ -28,13 +26,10 @@ export class MyQuizzesComponent implements OnInit, OnDestroy {
   set listFilter(value: string) {
     this._ListFilter = value;
     if (this.listFilter === '') {
-      this.filteredQuizes=this.quizzes
-    }
-    else{
+      this.filteredQuizes = this.quizzes;
+    } else {
       this.filteredQuizes = this.preformFilter(value);
     }
-
-
   }
 
   filteredQuizes: Quiz[] = [];
@@ -47,11 +42,9 @@ export class MyQuizzesComponent implements OnInit, OnDestroy {
   private Sub: Subscription;
   mapParam: string;
   constructor(
-    private topicService: TopicService,
     private quizService: QuizService,
     private _snackBar: MatSnackBar,
-    private authservice: AuthService,
-    private route: ActivatedRoute
+    private authservice: AuthService
   ) {}
   displayedColumns: string[] = [
     'title',
@@ -73,14 +66,8 @@ export class MyQuizzesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.userId = this.authservice.getUserId();
-    this.topicService.getTopics().subscribe({
-      next: (topics) => {
-        this.topics = topics;
-      },
-    });
-
     this.quizService.getMyQuizzes(this.PostsPerPage, 1, this.userId);
-   this.Sub= this.quizService
+    this.Sub = this.quizService
       .getPostUpdateListener()
       .subscribe((quizData: { Quiz: Quiz[]; quizCount: number }) => {
         this.isLoading = false;
@@ -119,8 +106,6 @@ export class MyQuizzesComponent implements OnInit, OnDestroy {
         );
       });
   }
-
-  onChange() {}
 
   onDelete(QuizId: string) {
     this.isLoading = true;

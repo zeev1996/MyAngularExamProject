@@ -17,9 +17,9 @@ import { TopicService } from 'src/app/Repository/topicService';
 export class QuizListMenuComponent implements OnInit, OnDestroy {
   quizzes: Quiz[] = [];
   userId: string;
-  topic: string = 'none';
+  topic = 'none';
   topics: any[] = [];
-  isChecked = true;
+  topicQuizzes:Quiz[]=[];
   authStatusSub: Subscription;
   private _ListFilter: string = '';
   get listFilter(): string {
@@ -73,6 +73,8 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
     this.topicService.getTopics().subscribe({
       next: (topics) => {
         this.topics = topics;
+        const topic={name:this.topic}
+        this.topics.push(topic)
       },
     });
     this.quizService.getQuizzes(this.PostsPerPage, 1);
@@ -102,7 +104,19 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
     this.openSnackBar(content);
   }
 
-  onChange() {}
+  onSearch() {
+    console.log(this.topic)
+    if(this.topic==="none")
+    {
+      this.quizService.getQuizzes(this.PostsPerPage, this.currentPage);
+    }
+    else
+    {
+      this.quizService.getQuizByTopic(this.PostsPerPage, this.currentPage,this.topic)
+    }
+
+
+  }
 
   ngOnDestroy() {
     this.Sub.unsubscribe();

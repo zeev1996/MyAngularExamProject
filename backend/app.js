@@ -5,7 +5,6 @@ const QuestionRoutes = require("./routes/QuestionRouter");
 const QuizRoutes=require("./routes/QuizRouter");
 const UserRoutes=require("./routes/UserRouter")
 const TopicRoutes=require("./routes/TopicRouter")
-
 const app = express();
 
 mongoose

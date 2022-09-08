@@ -168,6 +168,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
   onSelect() {
+    console.log(this.selected)
     if (this.selectedAnswers.length > 0) this.selectedAnswers.clear();
   }
   onReset() {

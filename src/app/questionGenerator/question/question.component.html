@@ -15,7 +15,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Select an question type</mat-label>
-          <mat-select (valueChange)="onSelect()" [(value)]="selected">
+          <mat-select  (valueChange)="onSelect()" [(value)]="selected">
             <mat-option *ngFor="let select of questionTypes" value="{{ select }}">{{ select }}</mat-option>
           </mat-select>
         </mat-form-field>

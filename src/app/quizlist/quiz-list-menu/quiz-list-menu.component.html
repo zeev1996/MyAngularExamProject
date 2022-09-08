@@ -6,10 +6,11 @@
   </div>
   <mat-form-field appearance="fill">
     <mat-label>Topic</mat-label>
-    <mat-select (valueChange)="onChange()"  [(value)]="topic">
-      <mat-option *ngFor="let select of topics" [value]="select.name">{{ select.name }}</mat-option>
+    <mat-select  [(value)]="topic">
+      <mat-option *ngFor="let select of topics" value="{{select.name}}">{{ select.name }}</mat-option>
     </mat-select>
   </mat-form-field>
+  <button mat-button (click)="onSearch()" ><mat-icon>find_replace</mat-icon></button>
   <table mat-table [dataSource]="filteredQuizes" class="mat-elevation-z5">
     <ng-container matColumnDef="title">
 

@@ -64,7 +64,7 @@ router.get("/byTopic/:id", async (req, res, next) => {
   }
   await QuizQuery.then((documents) => {
     fetchedQuizzes = documents;
-    return  Quiz.count({ quizTopic: req.params.id,publish:true });
+    return  Quiz.count({ quizTopic:req.params.id,publish:true });
   }).then((count) => {
     console.log(count);
     res.status(200).json({
