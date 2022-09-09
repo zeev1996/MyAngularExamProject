@@ -79,48 +79,36 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     const rightanswers: string[] = [];
-    if (
-      this.selected === 'SingleQuestionAnswer' &&
-      this.rightAnswer != '' &&
-      this.answerstring.length > 1
-    ) {
+    if (this.selected === 'SingleQuestionAnswer' && this.rightAnswer != '' && this.answerstring.length > 1 ) {
       this.isloading = true;
-      this.submited = true;
-      rightanswers.push(this.rightAnswer);
-      const question: Question = {
-        id: '',
-        content: this.firstFormGroup.value.content,
-        rightAnswers: rightanswers,
-        questionType: this.selected,
-        answers: this.answerstring,
-        quizId: this.quizid,
-        topic:this.quiz.quizTopic
-      };
 
-      this.questionService
-        .addQuestion(question)
-        .subscribe(() => {
-          this.quizService
+      rightanswers.push(this.rightAnswer);
+      let question: Question = {  id: '', content: this.firstFormGroup.value.content,rightAnswers: rightanswers, questionType: this.selected, answers: this.answerstring,quizId: this.quizid,  topic:this.quiz.quizTopic};
+      this.questionService .addQuestion(question).subscribe(() => {
           this.isloading = false;
+
+          this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
+            next:questions=>
+            {
+              this.quizService.updateQuiz(this.quizid,this.quiz.title,this.quiz.content,this.quiz.quizTopic,questions).subscribe()
+            }
+          })
+
         });
+        this.submited = true;
     }
-    if (
-      this.selected === 'MultiQuestionAnswer' &&
-      this.rightAnswers.length > 1 &&
-      this.answerstring.length > 2
-    ) {
+    else if ( this.selected === 'MultiQuestionAnswer' && this.rightAnswers.length > 1 && this.answerstring.length > 2) {
       this.isloading = true;
-      const question: Question = {
-        id: '',
-        content: this.firstFormGroup.value.content,
-        rightAnswers: this.rightAnswers,
-        questionType: this.selected,
-        answers: this.answerstring,
-        quizId: this.quizid,
-        topic:this.quiz.quizTopic
-      };
+      let question: Question = {id: '',content: this.firstFormGroup.value.content, rightAnswers: this.rightAnswers,questionType: this.selected, answers: this.answerstring, quizId: this.quizid, topic:this.quiz.quizTopic};
       this.questionService.addQuestion(question).subscribe(() => {
         this.isloading = false;
+        this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
+          next:questions=>
+          {
+            this.quizService.updateQuiz(this.quizid,this.quiz.title,this.quiz.content,this.quiz.quizTopic,questions).subscribe()
+          }
+        })
+
       });
       this.submited = true;
     }
@@ -153,6 +141,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
       this.onReset();
     }
   }
+
   onCheck(event: MatCheckboxChange) {
     if (event.source.checked) {
       if (this.selectedAnswers.length < 4) {

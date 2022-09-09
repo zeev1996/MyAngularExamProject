@@ -105,7 +105,7 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    console.log(this.topic)
+
     if(this.topic==="any")
     {
       this.quizService.getQuizzes(this.PostsPerPage, this.currentPage);
@@ -124,10 +124,20 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
   }
 
   onChangedPage(pageData: PageEvent) {
+    if(this.topic==="any")
+    {
+      this._ListFilter = '';
+      this.isLoading = true;
+      this.currentPage = pageData.pageIndex + 1;
+      this.PostsPerPage = pageData.pageSize;
+      this.quizService.getQuizzes(this.PostsPerPage, this.currentPage);
+    }
+   else{
     this._ListFilter = '';
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.PostsPerPage = pageData.pageSize;
-    this.quizService.getQuizzes(this.PostsPerPage, this.currentPage);
+    this.quizService.getQuizByTopic(this.PostsPerPage, this.currentPage,this.topic);
+   }
   }
 }
