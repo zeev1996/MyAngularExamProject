@@ -3,7 +3,7 @@
   <mat-stepper class="step" orientation="horizontal" [linear]="true" #stepper>
     <mat-step (interacted)="(false)" [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out your Question</ng-template>
+        <ng-template matStepLabel>Question</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Question Content</mat-label>
           <textarea matInput placeholder="Question" name="content" formControlName="content" required matInput rows="4"
@@ -26,7 +26,7 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Fill out your answers</ng-template>
+        <ng-template matStepLabel>answers</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Answer input (maximum of 4 answers and same answers are not
             allowed)</mat-label>

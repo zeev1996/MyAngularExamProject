@@ -13,8 +13,8 @@ input{
 .example-radio-group {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
-  align-items: center;
+  margin-left: 45%;
+
 }
 
 .example-radio-button {
@@ -25,18 +25,8 @@ input{
 
   justify-content: space-between;
 }
-mat-card
-{
-  width: 100%;
 
-}
 
-.step
-{
-
-  width: 85%;
-  margin-left: 6%;
-}
 .answers-css
 {
 justify-content: center;

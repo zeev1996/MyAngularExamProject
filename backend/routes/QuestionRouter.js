@@ -3,6 +3,7 @@ const question = require("../models/question");
 const checkAuth = require("../Middleware/check-auth");
 
 const Question = require("../models/question");
+const { async } = require("rxjs");
 
 
 const router = express.Router();
@@ -47,17 +48,30 @@ await  Question.find({ quiz: req.params.id }).then((question) => {
     });
   });;
 });
+router.get("/byTopic/:id",async (req, res, next) => {
+  await  Question.find({ topic: req.params.id }).then((question) => {
+      if (question) {
+        res.status(200).json(question);
+      } else {
+        res.status(404).json({ message: "questions not found!" });
+      }
+    }) .catch((error) => {
+      res.status(500).json({
+        message: "Faild to get question",
+      });
+    });;
+  });
 
 router.get("",async (req, res) => {
-  Question.find(await function (err, result) {
-    if (err) {
-      res.send(err);
+  await Question.find().then((question) => {
+    if (question) {
+      res.status(200).json(question);
     } else {
-      res.send(result);
+      res.status(404).json({ message: "questions not found!" });
     }
   }) .catch((error) => {
     res.status(500).json({
-      message: "Faild to get question",
+      message: "Faild to get Quizz",
     });
   });;
 });
@@ -102,6 +116,11 @@ router.delete("/:id",checkAuth , async (req, res, next) => {
 await Question.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
     res.status(200).json({ message: "Question is deleted!" });
+  })
+  .catch((error) => {
+    res.status(404).json({
+      message: "Faild to delete question",
+    });
   });
 });
 module.exports = router;

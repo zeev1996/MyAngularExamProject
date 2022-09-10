@@ -6,7 +6,7 @@ export interface Quiz
   title:string;
   content:string,
   quizTopic:string;
-  questions:string[];
+  questions:Question[];
   QuizCreator:string;
   publish:boolean
 }

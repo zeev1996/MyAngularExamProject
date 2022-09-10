@@ -7,9 +7,9 @@ import { Question } from "src/models/QuestionModel";
 @Injectable({ providedIn: "root" })
 export class QuestionService {
   constructor(private http: HttpClient) { }
- 
 
-  addQuestion(Question:Question): Observable<Question> {
+
+  addQuestion(Question): Observable<Question> {
 
     return this.http.post<Question>("http://localhost:3000/api/questions", Question)
     .pipe(
@@ -24,9 +24,17 @@ export class QuestionService {
       catchError(this.HandleError)
     );
   }
+  
 getQuestionsByQuizId(quizId:string):Observable<Question[]>
 {
   return this.http.get<Question[]>("http://localhost:3000/api/questions/byQuizId/"+quizId).pipe(
+    tap(data => console.log('All: ', JSON.stringify(data))),
+    catchError(this.HandleError)
+  );
+}
+getQuestionsByTopic(topic:string):Observable<Question[]>
+{
+  return this.http.get<Question[]>("http://localhost:3000/api/questions/byTopic/"+topic).pipe(
     tap(data => console.log('All: ', JSON.stringify(data))),
     catchError(this.HandleError)
   );

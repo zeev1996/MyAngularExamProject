@@ -65,12 +65,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
         this.quizid = paramMap.get('id');
-        this.quizService.getQuiz(this.quizid).subscribe(quiz=>
-          {
-            this.quiz=quiz
-          })
+        this.quizService.getQuiz(this.quizid).subscribe((quiz) => {
+          this.quiz = quiz;
+        });
       }
-      console.log(this.quizid);
     });
   }
 
@@ -79,36 +77,44 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     const rightanswers: string[] = [];
-    if (this.selected === 'SingleQuestionAnswer' && this.rightAnswer != '' && this.answerstring.length > 1 ) {
+    if (
+      this.selected === 'SingleQuestionAnswer' &&
+      this.rightAnswer != '' &&
+      this.answerstring.length > 1
+    ) {
       this.isloading = true;
 
       rightanswers.push(this.rightAnswer);
-      let question: Question = {  id: '', content: this.firstFormGroup.value.content,rightAnswers: rightanswers, questionType: this.selected, answers: this.answerstring,quizId: this.quizid,  topic:this.quiz.quizTopic};
-      this.questionService .addQuestion(question).subscribe(() => {
-          this.isloading = false;
-
-          this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
-            next:questions=>
-            {
-              this.quizService.updateQuiz(this.quizid,this.quiz.title,this.quiz.content,this.quiz.quizTopic,questions).subscribe()
-            }
-          })
-
-        });
-        this.submited = true;
-    }
-    else if ( this.selected === 'MultiQuestionAnswer' && this.rightAnswers.length > 1 && this.answerstring.length > 2) {
-      this.isloading = true;
-      let question: Question = {id: '',content: this.firstFormGroup.value.content, rightAnswers: this.rightAnswers,questionType: this.selected, answers: this.answerstring, quizId: this.quizid, topic:this.quiz.quizTopic};
+      let question: Question = {
+        id: '',
+        content: this.firstFormGroup.value.content,
+        rightAnswers: rightanswers,
+        questionType: this.selected,
+        answers: this.answerstring,
+        quizId: this.quizid,
+        topic: this.quiz.quizTopic,
+      };
       this.questionService.addQuestion(question).subscribe(() => {
         this.isloading = false;
-        this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
-          next:questions=>
-          {
-            this.quizService.updateQuiz(this.quizid,this.quiz.title,this.quiz.content,this.quiz.quizTopic,questions).subscribe()
-          }
-        })
-
+      });
+      this.submited = true;
+    } else if (
+      this.selected === 'MultiQuestionAnswer' &&
+      this.rightAnswers.length > 1 &&
+      this.answerstring.length > 2
+    ) {
+      this.isloading = true;
+      let question: Question = {
+        id: '',
+        content: this.firstFormGroup.value.content,
+        rightAnswers: this.rightAnswers,
+        questionType: this.selected,
+        answers: this.answerstring,
+        quizId: this.quizid,
+        topic: this.quiz.quizTopic,
+      };
+      this.questionService.addQuestion(question).subscribe(() => {
+        this.isloading = false;
       });
       this.submited = true;
     }
@@ -157,7 +163,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
   }
   onSelect() {
-    console.log(this.selected)
+    console.log(this.selected);
     if (this.selectedAnswers.length > 0) this.selectedAnswers.clear();
   }
   onReset() {

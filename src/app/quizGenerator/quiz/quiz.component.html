@@ -57,41 +57,40 @@
     </div>
 
   </mat-card-actions>
+  <div class="dropbox" *ngIf="!isloading">
 
+    <div class="example-container">
+      <h2>{{quiz.quizTopic}} Question pull</h2>
+
+      <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="questions"
+        [cdkDropListConnectedTo]="[doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let question of questions" cdkDrag>
+          {{question.content}}
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>My Questions</h2>
+
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="quiz.questions"
+        [cdkDropListConnectedTo]="[todoList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let question of quiz.questions" cdkDrag>{{question.content}}</div>
+      </div>
+    </div>
+
+
+  </div>
 </mat-card>
 
 
-<div *ngIf="!isloading">
-
-
-    <mat-card class="question" *ngFor="let question of questions">
-
-      <mat-card-actions align="end">
-        <button mat-raised-button color="warn" (click)="onDeletedQuestion(question._id)">Delete question</button>
-      </mat-card-actions>
-
-        <div class="grid" *ngIf="question.questionType=='SingleQuestionAnswer'">
-          <h1>{{question.content}}</h1>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
-            <mat-radio-button class="example-radio-button" [value]="answer" *ngFor="let answer of question.answers">
-              {{answer}}
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-
-        <div class="grid" *ngIf="question.questionType==='MultiQuestionAnswer'">
-          <h1>{{question.content}}</h1>
-          <section class="example-section" *ngFor="let answer of question.answers ">
-            <mat-checkbox [value]="answer">{{answer}}
-            </mat-checkbox>
-          </section>
-          <div>
-          </div>
-        </div>
-
-
-
-    </mat-card>
-
-
-</div>

@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -6,6 +7,7 @@ import { AuthService } from 'src/app/Repository/auth.service';
 import { QuestionService } from 'src/app/Repository/questionService';
 import { QuizService } from 'src/app/Repository/quizService';
 import { TopicService } from 'src/app/Repository/topicService';
+import { Question } from 'src/models/QuestionModel';
 import { Quiz } from 'src/models/QuizModel';
 
 @Component({
@@ -16,32 +18,27 @@ import { Quiz } from 'src/models/QuizModel';
 export class QuizComponent implements OnInit, OnDestroy {
   FormGroup: FormGroup;
   userId: string;
-  questions: any[] = [];
   title: string = 'Quiz title';
   topics: any[] = [];
   topic: string = 'quiz topic';
   content: string = 'Quiz instructions';
   sub!: Subscription;
   quizid: string;
+  questions:any[]=[]
+
   quiz: Quiz;
   isloading = false;
   constructor(
     private topicService: TopicService,
     private authservice: AuthService,
-    private _formBuilder: FormBuilder,
     private questionService: QuestionService,
     private quizService: QuizService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isloading = true;
     this.userId = this.authservice.getUserId();
-    this.FormGroup = this._formBuilder.group({
-      title: ['', Validators.required],
-      topic: ['', Validators.required],
-      instructions: ['', Validators.required],
-    });
     this.sub = this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
         this.quizid = paramMap.get('id');
@@ -51,41 +48,26 @@ export class QuizComponent implements OnInit, OnDestroy {
             this.topics = topics;
           },
         });
+
         this.quizService.getQuiz(this.quizid).subscribe({
           next: (quizData) => {
             this.isloading = false;
             this.title = quizData.title;
             this.topic = quizData.quizTopic;
             this.content = quizData.content;
-            this.userId = this.authservice.getUserId();
-          },
-        });
-
-        this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
-          next: (questions) => {
-            this.questions = questions;
+            this.quiz=quizData
+            this.questionService.getQuestionsByTopic(quizData.quizTopic).subscribe({
+              next:questions=>
+              {
+                this.questions=questions
+              }
+            })
           },
         });
       }
     });
   }
-  onDeletedQuestion(id: string) {
-    this.questionService.deleteQuestion(id).subscribe(() => {
 
-      this.questionService.getQuestionsByQuizId(this.quizid).subscribe({
-        next: (questions) => {
-          this.questions = questions;
-          this.quizService.updateQuiz(
-            this.quizid,
-            this.title,
-            this.content,
-            this.topic,
-            this.questions
-          ).subscribe()
-        },
-      });
-    });
-  }
   onClick() {
     this.title = '';
     this.topic = '';
@@ -100,11 +82,23 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.title,
         this.content,
         this.topic,
-        this.questions
+        this.quiz.questions
       )
       .subscribe(() => {
         this.isloading = false;
       });
+  }
+  drop(event: CdkDragDrop<Question[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();

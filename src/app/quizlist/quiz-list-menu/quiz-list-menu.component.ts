@@ -49,7 +49,6 @@ export class QuizListMenuComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private _snackBar: MatSnackBar,
     private authservice: AuthService,
-    private route: ActivatedRoute
   ) {}
   displayedColumns: string[] = [
     'title',

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/Repository/auth.service';
-import { QuestionService } from 'src/app/Repository/questionService';
 import { QuizService } from 'src/app/Repository/quizService';
 import { Question } from 'src/models/QuestionModel';
 import { Quiz } from 'src/models/QuizModel';
@@ -14,17 +13,16 @@ import { Quiz } from 'src/models/QuizModel';
 })
 export class TestComponent implements OnInit,OnDestroy {
 quiz:Quiz;
-questions:Question[];
+title:string;
+content:string;
+questions:Question[]=[]
+topic:string;
 sub:Subscription;
 userId:string;
 isloading =false;
 quizId:string;
-title:string;
-content:string;
-topic:string;
 
-
-  constructor(private authService:AuthService,private quizService:QuizService,private questionService:QuestionService, private route: ActivatedRoute) { }
+  constructor(private authService:AuthService,private quizService:QuizService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.isloading = true;
@@ -36,18 +34,12 @@ topic:string;
         this.quizService.getQuiz(this.quizId).subscribe({
           next: (quizData) => {
             this.isloading = false;
-            this.title = quizData.title;
-            this.topic = quizData.quizTopic;
-            this.content = quizData.content;
             this.userId = this.authService.getUserId();
+           this.questions=quizData.questions
+            this.title=quizData.title
+            this.content=quizData.content
+            this.topic=quizData.quizTopic
           }
-        });
-
-        this.questionService.getQuestionsByQuizId(this.quizId).subscribe({
-          next: (questions) => {
-            this.questions = questions;
-
-          },
         });
       }
     });

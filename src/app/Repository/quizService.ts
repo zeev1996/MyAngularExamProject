@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Quiz } from "src/models/QuizModel";
 import { catchError,  map,  Observable, Subject, tap, throwError } from "rxjs";
 import { Router } from "@angular/router";
+import { Question } from "src/models/QuestionModel";
 
 
 
@@ -154,8 +155,8 @@ publishQuiz(id: string, title: string, content: string,quizTopic:string,question
    }
 
 
-   getQuiz(id: string) {
-    return this.http.get<{id: string, title: string, content: string,quizTopic:string,QuizCreator:string,questions:string[],publish:boolean}>(
+   getQuiz(id: string):Observable<Quiz>  {
+    return this.http.get<Quiz>(
       "http://localhost:3000/api/quizzes/" + id
     );
   }

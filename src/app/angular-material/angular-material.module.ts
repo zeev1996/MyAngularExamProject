@@ -17,13 +17,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     MatInputModule,
     MatCardModule,
+    DragDropModule,
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
@@ -55,6 +56,7 @@ import { MatTableModule } from '@angular/material/table';
     MatTabsModule,
     MatGridListModule,
     MatSnackBarModule,
+    DragDropModule,
     MatTableModule],
 })
 export class AngularMaterialModule {}
